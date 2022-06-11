@@ -5,7 +5,10 @@
     };
 }*/
 
-const createPerson = (name, lastname) => ({name, lastname});
+const createPerson = (name, lastname) => ({
+    name,
+    lastname
+});
 
 function printArgumens() {
     console.log(arguments);
@@ -15,15 +18,21 @@ const printArgumens2 = (...arguments) => arguments;
 
 const person = createPerson('John', 'Santa');
 
-console.log({ person });
+console.log({
+    person
+});
 printArgumens(10, true, 'John', 'Santa');
 
 //* Name of Arguments
 const [age, isMarried, name, lastname] = printArgumens2(10, true, 'John', 'Santa');
 
 
-const { lastname: newLastname } = createPerson('John', 'Santa');
-console.log({ newLastname });
+const {
+    lastname: newLastname
+} = createPerson('John', 'Santa');
+console.log({
+    newLastname
+});
 
 //* Deestructuracion
 
@@ -51,5 +60,17 @@ const tony = {
 }*/
 
 //* Destructuration example
-const { name: realName, lastname: superHeroLastname, nameOfSuperhero, lastMovie, suits } = tony;
-console.log({ realName, superHeroLastname, nameOfSuperhero, lastMovie, suits });
+const {
+    name: realName,
+    lastname: superHeroLastname,
+    nameOfSuperhero,
+    lastMovie,
+    suits
+} = tony;
+console.log({
+    realName,
+    superHeroLastname,
+    nameOfSuperhero,
+    lastMovie,
+    suits
+});

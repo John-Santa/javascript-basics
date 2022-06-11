@@ -10,7 +10,9 @@
 //*     * const array = [];
 //*     * const array = new Array(10);
 let videoGames = ['Super Mario', 'Mario Kart', 'Super Mario Odyssey', 'Super Smash Bros', 'Super Mario World'];
-console.log( {videoGames} );
+console.log({
+    videoGames
+});
 
 //* Print first element of the array:
 console.log(videoGames[0]);
