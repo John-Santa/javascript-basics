@@ -56,14 +56,35 @@ const showCard = (card, player) => {
     }
 };
 
-const showPlayerPoints = (points) => {
-    if (points > 21) {
-        board[0].innerHTML = 'Bust!';
-        btnAskCard.disabled = true;
+const showPoints = (points, gambler) => {
+    if (gambler) {
+        if (points > 21) {
+            board[0].innerHTML = 'Bust!';
+            pointsOfPlayer = 0;
+            btnAskCard.disabled = true;
+            turnOfDealer(pointsOfPlayer);
+        } else {
+            board[0].innerText = ` - ${points}`;
+        }
     } else {
-        board[0].innerText = ` - ${points}`;
+        if (points > 21) {
+            board[1].innerHTML = 'Bust!';
+            pointsOfDealer = 0;
+        } else {
+            board[1].innerText = ` - ${points}`;
+        }
     }
 };
+
+const turnOfDealer = (minimumPoints) => {
+    do {
+        const card = askForCard();
+        showCard(card, false);
+        const value = cardValue(card);
+        pointsOfDealer += value;
+        showPoints(pointsOfDealer, false);
+    } while (pointsOfDealer < minimumPoints && pointsOfDealer < 21);
+}
 
 
 
@@ -74,5 +95,11 @@ btnAskCard.addEventListener('click', () => {
     pointsOfPlayer += value;
 
     showCard(card, true);
-    showPlayerPoints(pointsOfPlayer);
+    showPoints(pointsOfPlayer, true);
+});
+
+btnStay.addEventListener('click', () => {
+    btnAskCard.disabled = true;
+    btnStay.disabled = true;
+    turnOfDealer(pointsOfPlayer);
 });
