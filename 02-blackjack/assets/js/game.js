@@ -56,20 +56,21 @@ const showCard = (card, player) => {
     }
 };
 
+
 const showPoints = (points, gambler) => {
     if (gambler) {
         if (points > 21) {
-            board[0].innerHTML = 'Bust!';
+            board[0].innerText = ' - Bust!';
             pointsOfPlayer = 0;
             btnAskCard.disabled = true;
+            btnStay.disabled = true;
             turnOfDealer(pointsOfPlayer);
         } else {
             board[0].innerText = ` - ${points}`;
         }
     } else {
         if (points > 21) {
-            board[1].innerHTML = 'Bust!';
-            pointsOfDealer = 0;
+            board[1].innerHTML = ' - Bust!';
         } else {
             board[1].innerText = ` - ${points}`;
         }
@@ -84,6 +85,14 @@ const turnOfDealer = (minimumPoints) => {
         pointsOfDealer += value;
         showPoints(pointsOfDealer, false);
     } while (pointsOfDealer < minimumPoints && pointsOfDealer < 21);
+
+    if (pointsOfDealer == pointsOfPlayer) {
+        board[1].innerText = ' - Draw!';
+    } else if (pointsOfDealer > pointsOfPlayer && pointsOfDealer <= 21) {
+        board[1].innerText = ' - Dealer wins!';
+    } else if (pointsOfDealer > 21 && pointsOfPlayer != 0) {
+        board[0].innerText = ' - Player wins!';
+    }
 }
 
 
@@ -102,4 +111,16 @@ btnStay.addEventListener('click', () => {
     btnAskCard.disabled = true;
     btnStay.disabled = true;
     turnOfDealer(pointsOfPlayer);
+});
+
+btnNewGame.addEventListener('click', () => {
+    deck = createDeck();
+    pointsOfPlayer = 0;
+    pointsOfDealer = 0;
+    playerCards.innerHTML = '';
+    dealerCards.innerHTML = '';
+    board[0].innerText = ' - 0';
+    board[1].innerText = ' - 0';
+    btnAskCard.disabled = false;
+    btnStay.disabled = false;
 });
