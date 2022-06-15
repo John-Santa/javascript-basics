@@ -11,6 +11,7 @@ const btnAskCard = document.querySelector('#btnAskCard');
 const btnStay = document.querySelector('#btnStay');
 const board = document.querySelectorAll('small');
 const playerCards = document.querySelector('#player-cards');
+const dealerCards = document.querySelector('#dealer-cards');
 
 let pointsOfPlayer = 0;
 let pointsOfDealer = 0;
@@ -44,22 +45,34 @@ const cardValue = (card) => {
         parseInt(value);
 }
 
+const showCard = (card, player) => {
+    const cardPlayer = document.createElement('img');
+    cardPlayer.src = `assets/cards/${card}.png`;
+    cardPlayer.classList.add('card-player');
+    if (player) {
+        playerCards.appendChild(cardPlayer);
+    } else {
+        dealerCards.appendChild(cardPlayer);
+    }
+};
+
+const showPlayerPoints = (points) => {
+    if (points > 21) {
+        board[0].innerHTML = 'Bust!';
+        btnAskCard.disabled = true;
+    } else {
+        board[0].innerText = ` - ${points}`;
+    }
+};
+
+
+
 //Events
-btnAskCard.addEventListener('click', () => { 
+btnAskCard.addEventListener('click', () => {
     const card = askForCard();
     const value = cardValue(card);
     pointsOfPlayer += value;
 
-    const cardPlayer = document.createElement('img');
-    cardPlayer.src = `assets/cards/${card}.png`;
-    cardPlayer.classList.add('card-player');
-    playerCards.append(cardPlayer);
-
-    if (pointsOfPlayer > 21) {
-        board[0].innerHTML = 'Bust!';
-        btnAskCard.disabled = true;
-    } else {
-        board[0].innerHTML = pointsOfPlayer;
-    }
-    board[0].innerText = ` - ${pointsOfPlayer}`;
+    showCard(card, true);
+    showPlayerPoints(pointsOfPlayer);
 });
