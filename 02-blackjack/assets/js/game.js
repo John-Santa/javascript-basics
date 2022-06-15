@@ -6,6 +6,14 @@
  */
 
 let deck = [];
+const btnNewGame = document.querySelector('#btnNewGame');
+const btnAskCard = document.querySelector('#btnAskCard');
+const btnStay = document.querySelector('#btnStay');
+const board = document.querySelectorAll('small');
+const playerCards = document.querySelector('#player-cards');
+
+let pointsOfPlayer = 0;
+let pointsOfDealer = 0;
 
 const createDeck = () => {
     const suits = ['C', 'D', 'H', 'S'];
@@ -29,4 +37,29 @@ const askForCard = () => {
     return card;
 }
 
-askForCard();
+const cardValue = (card) => {
+    const value = card.slice(0, -1);
+    return (isNaN(value)) ?
+        (value === 'A') ? 11 : 10 :
+        parseInt(value);
+}
+
+//Events
+btnAskCard.addEventListener('click', () => { 
+    const card = askForCard();
+    const value = cardValue(card);
+    pointsOfPlayer += value;
+
+    const cardPlayer = document.createElement('img');
+    cardPlayer.src = `assets/cards/${card}.png`;
+    cardPlayer.classList.add('card-player');
+    playerCards.append(cardPlayer);
+
+    if (pointsOfPlayer > 21) {
+        board[0].innerHTML = 'Bust!';
+        btnAskCard.disabled = true;
+    } else {
+        board[0].innerHTML = pointsOfPlayer;
+    }
+    board[0].innerText = ` - ${pointsOfPlayer}`;
+});
