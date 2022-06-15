@@ -15,6 +15,8 @@ const createDeck = () => {
             deck.push(value + suit);
         }
     }
+    deck = _.shuffle(deck);
+    return deck;
 }
 
 createDeck();
