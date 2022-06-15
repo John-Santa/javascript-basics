@@ -20,3 +20,13 @@ const createDeck = () => {
 }
 
 createDeck();
+
+const askForCard = () => {
+    if (deck.length === 0) {
+        throw 'No cards!';
+    }
+    const card = deck.pop();
+    return card;
+}
+
+askForCard();
