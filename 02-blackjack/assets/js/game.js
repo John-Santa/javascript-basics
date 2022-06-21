@@ -2,21 +2,31 @@
  * Autoinvoked function
  *  * Are functions that call themselves
  */
-(() => {
+const game = (() => {
     'use strict';
-
     let deck = [];
-    const btnNewGame = document.querySelector('#btnNewGame');
-    const btnAskCard = document.querySelector('#btnAskCard');
-    const btnStay = document.querySelector('#btnStay');
-    const board = document.querySelectorAll('small');
-    const playerCards = document.querySelector('#player-cards');
-    const dealerCards = document.querySelector('#dealer-cards');
+    //HTML REFERENCES
+    const btnNewGame = document.querySelector('#btnNewGame'),
+        btnAskCard = document.querySelector('#btnAskCard'),
+        btnStay = document.querySelector('#btnStay'),
+        board = document.querySelectorAll('small'),
+        cards = document.querySelectorAll('.divCards')
 
-    let pointsOfPlayer = 0;
-    let pointsOfDealer = 0;
+    let playerPoints;
+
+
+    const gameInit = (numberOfPlayers = 1) => {
+        deck = createDeck()
+        playerPoints = [];
+        for (let index = 0; index <= numberOfPlayers; index++) {
+            playerPoints.push(0);
+            cards[index].innerHTML = '';
+            board[index].innerText = ' - 0';
+        }
+    }
 
     const createDeck = () => {
+        deck = [];
         const suits = ['C', 'D', 'H', 'S'];
         const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
         for (let suit of suits) {
@@ -24,18 +34,11 @@
                 deck.push(value + suit);
             }
         }
-        deck = _.shuffle(deck);
-        return deck;
+        return _.shuffle(deck);
     }
 
-    createDeck();
-
-    const askForCard = () => {
-        if (deck.length === 0) {
-            throw 'No cards!';
-        }
-        const card = deck.pop();
-        return card;
+    const askForCard = (turn) => {
+        return deck.length > 0 ? deck.pop() : 'No more cards';
     }
 
     const cardValue = (card) => {
@@ -45,83 +48,79 @@
             parseInt(value);
     }
 
-    const showCard = (card, player) => {
+    const showCard = (card, turn) => {
         const cardPlayer = document.createElement('img');
         cardPlayer.src = `assets/cards/${card}.png`;
         cardPlayer.classList.add('card-player');
-        if (player) {
-            playerCards.appendChild(cardPlayer);
-        } else {
-            dealerCards.appendChild(cardPlayer);
-        }
+        cards[turn].appendChild(cardPlayer);
     };
 
+    const determinateWinner = () => {
+        const [player, computer] = playerPoints;
 
-    const showPoints = (points, gambler) => {
-        if (gambler) {
-            if (points > 21) {
-                board[0].innerText = ' - Bust!';
-                pointsOfPlayer = 0;
-                btnAskCard.disabled = true;
-                btnStay.disabled = true;
-                turnOfDealer(pointsOfPlayer);
-            } else {
-                board[0].innerText = ` - ${points}`;
-            }
+        if (player > 21) {
+            board[0].innerText = ' You lose!';
+            board[1].innerText = ' You win!';
+        } else if (computer > 21 ) {
+            board[0].innerText = ' You win!';;
+            board[1].innerText = ' You lose!';
+        } else if (player === computer) {
+            board[0].innerText = ' You draw!';
+            board[1].innerText = ' You draw!';
         } else {
-            if (points > 21) {
-                board[1].innerHTML = ' - Bust!';
-            } else {
-                board[1].innerText = ` - ${points}`;
-            }
+            board[0].innerText = ' You lose!';
+            board[1].innerText = ' You win!';
         }
-    };
+    }
+
+    //* 0 = player, lastPosition = dealer
+    const accumulatePoints = (card, turn) => {
+        let valueOfCard = cardValue(card);
+        playerPoints[turn] = parseInt(playerPoints[turn]) + valueOfCard;
+        board[turn].innerText = ` - ${playerPoints[turn]}`;
+        return playerPoints[turn];
+    }
+
 
     const turnOfDealer = (minimumPoints) => {
         do {
+            const playersQuantity = playerPoints.length;
             const card = askForCard();
-            showCard(card, false);
-            const value = cardValue(card);
-            pointsOfDealer += value;
-            showPoints(pointsOfDealer, false);
-        } while (pointsOfDealer < minimumPoints && pointsOfDealer < 21);
+            showCard(card, playersQuantity - 1);
+            accumulatePoints(card, playersQuantity - 1);
+        } while (playerPoints[1] < minimumPoints && minimumPoints <= 21);
 
-        if (pointsOfDealer == pointsOfPlayer) {
-            board[1].innerText = ' - Draw!';
-        } else if (pointsOfDealer > pointsOfPlayer && pointsOfDealer <= 21) {
-            board[1].innerText = ' - Dealer wins!';
-        } else if (pointsOfDealer > 21 && pointsOfPlayer != 0) {
-            board[0].innerText = ' - Player wins!';
-        }
+        determinateWinner();
     }
 
 
 
     //Events
     btnAskCard.addEventListener('click', () => {
-        const card = askForCard();
-        const value = cardValue(card);
-        pointsOfPlayer += value;
-
-        showCard(card, true);
-        showPoints(pointsOfPlayer, true);
+        if (playerPoints[0] < 21) {
+            const card = askForCard();
+            showCard(card, 0);
+            accumulatePoints(card, 0);
+        } else {
+            btnAskCard.disabled = false;
+        }
     });
 
     btnStay.addEventListener('click', () => {
         btnAskCard.disabled = true;
         btnStay.disabled = true;
-        turnOfDealer(pointsOfPlayer);
+        turnOfDealer(playerPoints[0]);
     });
 
     btnNewGame.addEventListener('click', () => {
-        deck = createDeck();
-        pointsOfPlayer = 0;
-        pointsOfDealer = 0;
-        playerCards.innerHTML = '';
-        dealerCards.innerHTML = '';
-        board[0].innerText = ' - 0';
-        board[1].innerText = ' - 0';
+        console.clear();
+        gameInit();
         btnAskCard.disabled = false;
         btnStay.disabled = false;
     });
+
+    return {
+        newGame: gameInit,
+    };
+
 })();

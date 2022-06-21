@@ -20,15 +20,15 @@
     <div class="row mt-2">
         <div class="col text-center">
             <button id="btnNewGame" class="btn btn-danger">New Game</button>
-            <button id="btnAskCard" class="btn btn-primary">Ask for card</button>
-            <button id="btnStay" class="btn btn-primary">Stay</button>
+            <button id="btnAskCard" disabled="disabled" class="btn btn-primary">Ask for card</button>
+            <button id="btnStay" disabled="disabled" class="btn btn-primary">Stay</button>
         </div>
     </div>
 
     <div class="row container mt-2">
         <div class="col">
             <h1>Player 1 <small>- 0</small></h1>
-            <div id="player-cards">
+            <div id="player-cards" class="divCards">
 
             </div>
         </div>
@@ -37,7 +37,7 @@
     <div class="row container mt-2">
         <div class="col">
             <h1>Dealer<small>- 0</small></h1>
-            <div id="dealer-cards">
+            <div id="dealer-cards" class="divCards">
 
             </div>
         </div>
@@ -46,6 +46,12 @@
 
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/game.js"></script>
+
+    <script>
+        document.querySelector('#btnNewGame').addEventListener('click', function() {
+            game.newGame();
+        });
+    </script>
 </body>
 
 </html>
