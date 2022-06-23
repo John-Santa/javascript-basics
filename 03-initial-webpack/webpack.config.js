@@ -25,6 +25,10 @@ module.exports = {
             {
                 test: /styles.css$/,
                 use: [MiniCssExtract.loader, 'css-loader']
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/,
+                loader: 'file-loader',
             }
         ]
     },
