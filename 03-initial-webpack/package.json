@@ -7,11 +7,14 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build:dev": "webpack --config webpack.config.dev.js",
         "build:prod": "webpack --config webpack.config.prod.js",
-        "start": "webpack server --config webpack.config.js --open --port=8080"
+        "start": "webpack server --config webpack.config.dev.js --open --port=8080"
     },
     "author": "John Santa",
     "license": "ISC",
     "devDependencies": {
+        "@babel/core": "^7.18.5",
+        "@babel/preset-env": "^7.18.2",
+        "babel-loader": "^8.2.5",
         "copy-webpack-plugin": "^11.0.0",
         "css-loader": "^6.7.1",
         "css-minimizer-webpack-plugin": "^4.0.0",
