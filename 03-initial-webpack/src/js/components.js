@@ -1,3 +1,5 @@
+import '../css/components.css'
+
 export const sayHelloByName = (name) => {
     console.log('Creating h1 tag');
 
