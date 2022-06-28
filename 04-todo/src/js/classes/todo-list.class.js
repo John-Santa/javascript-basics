@@ -14,13 +14,13 @@ export class TodoList {
 
     updateTodo(id) {
         this.todos.forEach(todo => {
-            if (todo.id === id) {
+            if (todo.id === parseInt(id)) {
                 todo.done = !todo.done;
             }
         });
     }
 
     deleteDoneTodos() {
-        this.todos = this.todos.filter(todo => !todo.done);
+        //this.todos = this.todos.filter(todo => !todo.done);
     }
 }
