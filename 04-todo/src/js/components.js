@@ -4,6 +4,7 @@ import { Todo } from "./classes/index";
 //* Html references
 const divTodoList = document.querySelector('.todo-list');
 const txtInput = document.querySelector('.new-todo');
+const btnClearComplete = document.querySelector('.clear-completed');
 
 export const createHtmlTodo = (todo) => {
     const htmlTodo = `
@@ -24,7 +25,7 @@ export const createHtmlTodo = (todo) => {
 }
 
 //* Event Listeners
-txtInput.addEventListener('keyup', ( event ) => {
+txtInput.addEventListener('keyup', (event) => {
     if (event.keyCode === 13) {
         const task = txtInput.value;
         if (task) {
@@ -37,9 +38,8 @@ txtInput.addEventListener('keyup', ( event ) => {
     }
 });
 
-divTodoList.addEventListener('click', ( event ) => {
+divTodoList.addEventListener('click', (event) => {
     const target = event.target;
-    const elementName = target.localName;
     const todoElement = target.parentElement.parentElement;
     const id = todoElement.getAttribute('data-id');
     if (target.classList.contains('destroy')) {
@@ -49,4 +49,9 @@ divTodoList.addEventListener('click', ( event ) => {
         todoList.updateTodo(id);
         todoElement.classList.toggle('completed');
     }
+});
+
+btnClearComplete.addEventListener('click', () => {
+    todoList.deleteDoneTodos();
+    divTodoList.querySelectorAll('.completed').forEach(todo => todo.remove());
 });
