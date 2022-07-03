@@ -34,3 +34,31 @@ export const findHero = (id) => {
     })
 };
 
+export const findHeroAsync = async(id) => {
+    const hero = heroes[id];
+
+    if (hero) {
+        return hero;
+    } else {
+        throw `Hero with id ${id} not found`;
+    }
+
+};
+
+const slowPromise = new Promise( ( resolve, reject ) => {
+    setTimeout( () => resolve('Slow promise'), 2000 );
+});
+
+const mediumPromise = new Promise( ( resolve, reject ) => {
+    setTimeout( () => resolve('Medium promise'), 1500 );
+});
+
+const fastPromise = new Promise( ( resolve, reject ) => {
+    setTimeout( () => resolve('Fast promise'), 1000 );
+});
+
+export {
+    slowPromise,
+    mediumPromise,
+    fastPromise
+}

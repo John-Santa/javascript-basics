@@ -38,7 +38,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpack({
-            title: 'My webpack app',
+            title: 'My todo app',
             template: './src/index.html'
         }),
 

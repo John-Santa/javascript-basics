@@ -38,7 +38,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpack({
-            title: 'My webpack app',
+            title: 'Example by Callbacks-Promises',
             template: './src/index.html'
         }),
 
