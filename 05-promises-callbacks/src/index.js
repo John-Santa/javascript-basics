@@ -1,15 +1,7 @@
 import './styles.css';
-import { obtainHeroArr, obtainHeroAwait } from './js/await.js';
+import { obtainHeroArr, obtainHeroAwait, cicleHeroes, conditionalHeroAwait } from './js/await.js';
 
-console.time('await')
 
-obtainHeroArr().then( heroes => {
-    console.table (heroes);
-    console.timeEnd('await');
-});
+cicleHeroes();
 
-console.time('Await')
-obtainHeroAwait('capi2').then( hero => {
-    console.log (hero);
-    console.timeEnd('Await');
-});
+conditionalHeroAwait('iron');
