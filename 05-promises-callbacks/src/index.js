@@ -1,4 +1,15 @@
 import './styles.css';
-import { obtainHeroArr } from './js/await.js';
+import { obtainHeroArr, obtainHeroAwait } from './js/await.js';
 
-obtainHeroArr().then( console.table );
+console.time('await')
+
+obtainHeroArr().then( heroes => {
+    console.table (heroes);
+    console.timeEnd('await');
+});
+
+console.time('Await')
+obtainHeroAwait('capi2').then( hero => {
+    console.log (hero);
+    console.timeEnd('Await');
+});
