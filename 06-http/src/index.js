@@ -1,9 +1,3 @@
-//* Consumir Http
+import { init } from "./js/joke-pages";
 
-const jokeUrl = 'https://api.chucknorris.io/jokes/random';
-
-fetch( jokeUrl ).then( response => {
-    response.json().then(({ id, value }) => {
-        console.log(value);
-    });
-});
+init();
