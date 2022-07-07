@@ -56,7 +56,7 @@ module.exports = {
 
     plugins: [
         new HtmlWebpack({
-            title: 'Http example',
+            title: 'CRUD',
             template: './src/index.html'
         }),
 

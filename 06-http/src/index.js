@@ -1,3 +1,3 @@
-import { init } from "./js/usuarios-page";
+import * as CRUD from "./js/crud-provider";
 
-init();
+CRUD.getUser(2).then( console.log );
