@@ -30,8 +30,17 @@ const updateUser = async ( id, user ) => {
     return await response.json();
 }
 
+const deleteUser = async ( userId ) => {
+    const response = await fetch( `${endpoint}/${userId}`, {
+        method: 'DELETE'
+    });
+
+    return ( response.ok ) ? 'User deleted' : 'User not found';
+}
+
 export {
     getUser,
     createUser,
-    updateUser
+    updateUser,
+    deleteUser
 }

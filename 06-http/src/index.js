@@ -12,4 +12,6 @@ CRUD.updateUser('1',{
     job: "Software Engineer",
 }).then( console.log );
 
+CRUD.deleteUser('1').then( console.log );
+
 CRUD.getUser(2).then( console.log );
