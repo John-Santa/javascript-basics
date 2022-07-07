@@ -1,3 +1,3 @@
-import { init } from "./js/joke-pages";
+import { init } from "./js/usuarios-page";
 
 init();
